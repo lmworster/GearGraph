@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="geargraph.css"></link>
+  <script src="geargraph.js"></script>
+</head>
+
+<body onload="geargraphInit()">
+  <section>
+    <table>
+      <tr>
+        <td>Style</td>
+        <td>Pen Color</td>
+        <td>Cycles</td>
+        <td>Ratio</td>
+      </tr>
+      <tr>
+        <td>
+          <select id="drpdwn">
+            <option>Epicycloid</option>
+            <option>Sinusoid</option>
+          </select>
+        </td>
+        <td>
+          Red: <input id="penred" type="text" size="5"></input>
+          Green: <input id="pengrn" type="text" size="5"></input>
+          Blue: <input id="penblue" type="text" size="5"></input>
+        </td>
+        <td>
+          <input id="cycles" type="text" size="6"></input>
+        </td>
+        <td>
+          <input id="ratio" type="text" size="6"></input>
+        </td>
+      </tr>
+    </table>
+    <button type="button" onclick="drawButton()">Draw!</button>
+    <button type="button" onclick="clearCanvas()">Clear Canvas</button>
+    <br />
+    <br />
+    <canvas id="canvas" height="512" width="512"></canvas>
+  </section>
+
+  <aside>
+    <table id="history">
+      <tr>
+        <td>&nbsp;</td>
+        <td>Style</td>
+        <td>Pen Color</td>
+        <td>Cycles</td>
+        <td>Ratio</td>
+      </tr>
+    </table>
+  </aside>
+</body>
+
+</html>
