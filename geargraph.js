@@ -72,10 +72,10 @@ function geargraphInit() {
   tracerLookup.set("epicycloid", epicycloidTracer)
 }
 
-function makeDelButton(traceNumber) {
+function makeDelButton() {
   var delButton = document.createElement("input")
   delButton.setAttribute("type", "button")
-  delButton.setAttribute("onclick", "delTrace(" + traceNumber + ")")
+  delButton.setAttribute("onclick", "delTrace(this)")
   delButton.setAttribute("value", "del")
   return delButton
 }
@@ -83,14 +83,14 @@ function makeDelButton(traceNumber) {
 function addHistory(style, cycles, ratio, red, green, blue, traceNumber) {
   drawHistory.push({style:style, cycles:cycles, ratio:ratio,
                     red:red, green:green, blue:blue})
-  var delButton = makeDelButton(traceNumber)
+  var delButton = makeDelButton()
   var rgbColor = "rgb(" + red + "," + green + "," + blue + ")"
 
   var history = document.getElementById("history")
   var insHistory = history.insertRow(drawHistory.length)
   insHistory.insertCell(0).appendChild(delButton)
   insHistory.insertCell(1).innerHTML = style
-  insHistory.insertCell(2).innerHTML = "&nbsp;"
+  //insHistory.insertCell(2).innerHTML = "&nbsp;"
   insHistory.insertCell(3).innerHTML = cycles
   insHistory.insertCell(4).innerHTML = ratio
 
@@ -125,7 +125,23 @@ function clearCanvas() {
  context.putImageData(imgData,0,0)
 }
 
-function delTrace(traceNumber) {
-  //remove drawHistory[traceNumber]
-  //
+function clearHistory() {
+  drawHistory = []
+
+  for(var i = 1; i < tbl.length; i++) {
+    document.getElementById("history").deleteRow(i)
+  }
+}
+
+function delTrace(row) {
+  var traceNumber = row.parentNode.parentNode.rowIndex - 1
+  drawHistory.splice(traceNumber,1)
+  clearCanvas()
+  imgData = context.getImageData(0,0,canvas.width,canvas.height)
+  for(var i = 0; i < drawHistory.length; i++) {
+    var line = drawHistory[i]
+    trace(imgData, radius, tracerLookup.get(line.style), line.cycles, line.ratio, line.red, line.green, line.blue)
+  }
+  context.putImageData(imgData,0,0)
+  document.getElementById("history").deleteRow(traceNumber + 1)
 }
